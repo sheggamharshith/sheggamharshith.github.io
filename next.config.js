@@ -4,5 +4,5 @@ const nextConfig = {
 }
 module.exports = {
   ...withNextra(),
-  ...nextConfig()
+  ...nextConfig
 }
