@@ -1,0 +1,24 @@
+---
+type: page
+title: Projects
+date: 2021-03-19
+---
+
+import Image from 'next/image'
+import Link from 'next/link'
+import JSONData from '../../data/projects.json'
+
+{JSONData.map((project,index)=>{return (
+
+<div className='grid grid-cols-1 justify-center align-items-center'>
+<Link href={"projects/"+project.id} class="grid grid-cols-2 w-full items-center bg-white border border-gray-300 rounded-lg shadow md:flex-row  hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-10" style={{"text-decoration": "none"}}>
+    <Image class="object-cover object-center w-full h-full max-h-80" src={"../" + project.main_img} alt="image" width={0} height={0} />
+    <div class="flex flex-col justify-between p-4 leading-normal no-underline">
+        <h5 class="mb-2 text-n text-2xl font-bold tracking-tight text-gray-900 dark:text-white no-underline">{project.short_info}</h5>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate">{project.long_info}</p>
+    </div>
+</Link>
+
+</div>
+)
+})}

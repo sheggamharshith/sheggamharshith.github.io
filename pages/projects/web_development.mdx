@@ -1,0 +1,37 @@
+---
+title: Web Development
+date: 2022/3/18
+description: Web Development Project
+tag: Web Development
+author: Harshith Sheggam
+---
+
+import Image from 'next/image'
+import JSONData from '../../data/projects.json'
+
+## {JSONData[3].short_info}
+
+<Image
+  src={'/' + JSONData[3].blog_img}
+  className=" object-scale-down md:object-cover md:object-center w-full h-80"
+  width={0}
+  height={0}
+/>
+
+{JSONData[3].long_info}
+
+## Gallery 
+---
+
+<div class="mx-auto flex flex-wrap gap-1 justify-evenly items-stretch">
+  {JSONData[3].gallery.map((imageLink, index) => (
+    <Image
+      class="object-scale-down w-1/4 h-1/5
+  border border-black flex-grow "
+      src={'/' + imageLink}
+      alt="project"
+      width={0}
+      height={0}
+    />
+  ))}
+</div>
