@@ -1,0 +1,184 @@
+---
+title: Unleashing Django Rest Framework's Generic Views. The Game-Changing Class and mixins.
+description: Django generic view are life saver sometime's. when you'r app strictly does crud operations.
+date: 2023-12-28
+tag: Web Development, Django, Django Rest Framework,Backend Development, API's
+---
+
+# Exploring Django Generic Views
+
+![](/images/djangoRest.png)
+
+## Outline
+
+- [Introduction](#introduction)
+- [Essential Traits of GenericViewSet](#essential-traits-of-genericviewset-a-comprehensive-exploration)
+- [Mixins and Customization](#mixins-and-customization)
+- [Further Customization with ListModelMixin](#further-customization-with-listmodelmixin)
+- [Customizing permission classes](#customizing-permission-classes)
+- [Customize serializer class](#customize-serializer-class)
+
+
+## Introduction
+
+In the realm of web development, efficiency and compatibility often stand as pillars of robust application design. Django Rest Framework's (DRF) Generic Views emerge as a quintessential toolkit, offering developers a streamlined and versatile approach to handling common RESTful patterns.
+
+What makes DRF's Generic Views an indispensable asset is their innate compatibility with an array of third-party libraries. These views seamlessly integrate with various 3rd party libraries, embracing functionalities like pagination, filtering, and serialization without compromising simplicity or flexibility.
+
+## Essential Traits of GenericViewSet: A Comprehensive Exploration
+
+- GenericViewSet require couple of concepts such as router, queryset, permission's in DRF to understand it correctly.
+
+  - [**Router**](https://www.django-rest-framework.org/api-guide/routers/#routers) you need to either use simple router or default router to construct the GET,POST,PUT,DELETE automatically by adding the respective mixins.
+
+    | URL Pattern       | Associated Mixin  | HTTP Method(s) |
+    | ----------------- | ----------------- | -------------- |
+    | `^samples/$`      | ListModelMixin    | GET            |
+    | `^samples/$`      | CreateModelMixin  | POST           |
+    | `^samples/{pk}/$` | UpdateModelMixin  | PUT            |
+    | `^samples/{pk}/$` | DestroyModelMixin | DELETE         |
+
+  - **QuerySet** You need to pass the required model query set here
+    ```python
+    queryset = Sample.objects.all()
+    ```
+  - **Permission** You need pass the permission class to permission_classes attribute.
+
+- Basic outline how an ideal GenericViewSet class will be.
+  ```python
+  class TaskViewSet(ListModelMixin, GenericViewSet):
+      queryset = Task.objects.all()
+      serializer_class = TaskSerializer
+      permission_classes = [IsAuthenticated]
+  ```
+
+## Mixins and Customization.
+
+Customizing mixins without altering their core functionalities, such as pagination or serialization, poses a significant challenge. However,
+I've outlined several methods below that allow for customization while maintaining the core patterns. These methods are categorized based on the type of mixins used.
+
+### ListModelMixin
+
+#### Explanation of ListView
+
+- The first thing comes to your mind is how do i modify the queryset on the go, below is the example
+
+- Custom user or current user.
+
+```python
+    class TaskViewSet(ListModelMixin, GenericViewSet):
+      queryset = Task.objects.all()
+      serializer_class = TaskSerializer
+      permission_classes = [IsAuthenticated]
+
+    # when you want to have user
+    def get_queryset(self):
+      Task.objects.filter(user=self.request.user)
+```
+
+- Query Params.
+
+```python
+    def get_queryset(self):
+      Task.objects.filter(param=self.request.query_params.get("q"))
+```
+
+- Path Params
+
+```python
+   def get_queryset(self):
+       username = self.kwargs['username']
+       return Task.objects.filter(task__username=username)
+```
+
+> ⚠️ Don't perform any-other customization apart of native object filter method in get_queryset. for further customization see the below example.
+
+### Further Customization with ListModelMixin.
+
+- Before diving dep let's understand the ListModel mixin's native code. [Docs link](https://www.django-rest-framework.org/api-guide/generic-views/#listmodelmixin)
+
+```python
+class ListModelMixin:
+    """
+    List a queryset.
+    """
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        # checks if can apply the paginate_queryset
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            # applies the serialization.
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        # no pagination configured in your settings.
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+```
+
+If you observe the above code it does the job for most of the common patterns.
+Unfortunately there are no other method such as `perform_create` that we have for the CreateModelMixin. For the listModelMixin we don't have any.
+There is strong reason to do so you can use the serializer class [method](https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield).
+
+> You can still implement the same logic to maintain consistency with listModelMixin.
+
+```python
+class PerformListModelMixin(ListModelMixin):
+    """helps to modify data before doing paggination or queryset stiff"""
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())  # type: ignore
+
+        # perform list
+        queryset = self.perform_list(queryset)
+
+        page = self.paginate_queryset(queryset)  # type: ignore
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)  # type: ignore
+            return self.get_paginated_response(serializer.data)  # type: ignore
+
+        serializer = self.get_serializer(queryset, many=True)  # type: ignore
+        return Response(serializer.data)
+
+    def perform_list(self, queryset, *args, **kwargs):
+        """helps to modify the list"""
+        return queryset
+
+```
+### Customizing permission classes
+You can also customize the permission based on method's. let say you want to add different permission's based on different params/methods you can still do that.
+
+```python 
+
+    def get_permissions(self, request, view) ->list[PermissionClass]:
+        if request.method == 'GET':
+            return [GetPermissionClass] 
+        elif request.method == 'POST':
+            return [PostPermissionClass]
+        elif request.method == 'PUT' or request.method == 'DELETE':
+            return [PutOrDeletePermissionClass]
+        return False  #
+```
+
+### Customize serializer class
+You can also customize the serializer based on method. 
+
+```python 
+
+    def get_serializer(self, request, view) -> SerializerClass:
+        if request.method == 'GET':
+            return GetSerializerClass
+        if request.method == 'List':
+            return ListSerializerClass 
+        elif request.method == 'POST':
+            return PostSerializerClass
+        return False  #
+```
+
+> Continuation  Blog will be coming soon............................
+
+## Conclusion
+
+The GenericViewSet can be a game-changer once you grasp its method and call flow. Understanding these aspects allows you to tweak only the necessary parameters, unlocking its full potential while maintaining control over your customization.
