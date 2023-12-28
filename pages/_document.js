@@ -30,7 +30,7 @@ export default function Document() {
 
         <Script
           strategy="lazyOnload"
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=G-8MHHBREBBB`}
         />
 
         <Script strategy="lazyOnload">
@@ -38,7 +38,7 @@ export default function Document() {
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
-                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}', {
+                    gtag('config', 'G-8MHHBREBBB', {
                     page_path: window.location.pathname,
                     });
                 `}
