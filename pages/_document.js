@@ -27,22 +27,11 @@ export default function Document() {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.image} />
-
         <Script
-          strategy="lazyOnload"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-8MHHBREBBB`}
-        />
-
-        <Script strategy="lazyOnload">
-          {`
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', 'G-8MHHBREBBB', {
-                    page_path: window.location.pathname,
-                    });
-                `}
-        </Script>
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "3a6fa569eae44a0e9c878149c3e12a9c"}'
+        ></Script>
       </Head>
       <body>
         <Main />
