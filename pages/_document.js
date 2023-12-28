@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 
 export default function Document() {
   const meta = {
@@ -6,7 +7,7 @@ export default function Document() {
     description: 'Harshith Sheggam Portfolio',
     image: '',
     author: 'Harshith Sheggam',
-    date:  ''
+    date: ''
   }
 
   return (
@@ -26,6 +27,22 @@ export default function Document() {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.image} />
+
+        <Script
+          strategy="lazyOnload"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+        />
+
+        <Script strategy="lazyOnload">
+          {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}', {
+                    page_path: window.location.pathname,
+                    });
+                `}
+        </Script>
       </Head>
       <body>
         <Main />
