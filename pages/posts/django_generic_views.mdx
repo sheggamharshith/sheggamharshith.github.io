@@ -1,23 +1,24 @@
 ---
+type: post
 title: Unleashing Django Rest Framework's Generic Views. The Game-Changing Class and mixins.
 description: Django generic view are life saver sometime's. when you'r app strictly does crud operations.
 date: 2023-12-28
 tag: Web Development, Django, Django Rest Framework,Backend Development, API's
 ---
-
-# Exploring Django Generic Views
+import { Callout } from 'nextra/components'
 
 ![](/images/djangoRest.png)
 
 ## Outline
-
 - [Introduction](#introduction)
-- [Essential Traits of GenericViewSet](#essential-traits-of-genericviewset-a-comprehensive-exploration)
-- [Mixins and Customization](#mixins-and-customization)
-- [Further Customization with ListModelMixin](#further-customization-with-listmodelmixin)
-- [Customizing permission classes](#customizing-permission-classes)
-- [Customize serializer class](#customize-serializer-class)
-
+- [Essential Traits of GenericViewSet: A Comprehensive Exploration](#essential-traits-of-genericviewset-a-comprehensive-exploration)
+- [Mixins and Customization.](#mixins-and-customization)
+  - [ListModelMixin](#listmodelmixin)
+    - [Explanation of ListView](#explanation-of-listview)
+  - [Further Customization with ListModelMixin.](#further-customization-with-listmodelmixin)
+  - [Customizing permission classes](#customizing-permission-classes)
+  - [Customize serializer class](#customize-serializer-class)
+- [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -31,20 +32,20 @@ What makes DRF's Generic Views an indispensable asset is their innate compatibil
 
   - [**Router**](https://www.django-rest-framework.org/api-guide/routers/#routers) you need to either use simple router or default router to construct the GET,POST,PUT,DELETE automatically by adding the respective mixins.
 
-    | URL Pattern       | Associated Mixin  | HTTP Method(s) |
-    | ----------------- | ----------------- | -------------- |
+    | URL Pattern         | Associated Mixin  | HTTP Method(s) |
+    | ------------------- | ----------------- | -------------- |
     | `^samples/$`      | ListModelMixin    | GET            |
     | `^samples/$`      | CreateModelMixin  | POST           |
     | `^samples/{pk}/$` | UpdateModelMixin  | PUT            |
     | `^samples/{pk}/$` | DestroyModelMixin | DELETE         |
-
   - **QuerySet** You need to pass the required model query set here
+
     ```python
     queryset = Sample.objects.all()
     ```
   - **Permission** You need pass the permission class to permission_classes attribute.
-
 - Basic outline how an ideal GenericViewSet class will be.
+
   ```python
   class TaskViewSet(ListModelMixin, GenericViewSet):
       queryset = Task.objects.all()
@@ -62,7 +63,6 @@ I've outlined several methods below that allow for customization while maintaini
 #### Explanation of ListView
 
 - The first thing comes to your mind is how do i modify the queryset on the go, below is the example
-
 - Custom user or current user.
 
 ```python
@@ -90,8 +90,9 @@ I've outlined several methods below that allow for customization while maintaini
        username = self.kwargs['username']
        return Task.objects.filter(task__username=username)
 ```
-
-> ⚠️ Don't perform any-other customization apart of native object filter method in get_queryset. for further customization see the below example.
+<Callout type="warning" emoji="⚠️">
+Don't perform any-other customization apart of native object filter method in get_queryset. It will be used by other third party libraries such as filter, etc.. 
+</Callout>
 
 ### Further Customization with ListModelMixin.
 
@@ -147,10 +148,12 @@ class PerformListModelMixin(ListModelMixin):
         return queryset
 
 ```
+
 ### Customizing permission classes
+
 You can also customize the permission based on method's. let say you want to add different permission's based on different params/methods you can still do that.
 
-```python 
+```python
 
     def get_permissions(self, request, view) ->list[PermissionClass]:
         if request.method == 'GET':
@@ -163,9 +166,10 @@ You can also customize the permission based on method's. let say you want to add
 ```
 
 ### Customize serializer class
-You can also customize the serializer based on method. 
 
-```python 
+You can also customize the serializer based on method.
+
+```python
 
     def get_serializer(self, request, view) -> SerializerClass:
         if request.method == 'GET':
@@ -177,7 +181,7 @@ You can also customize the serializer based on method.
         return False  #
 ```
 
-> Continuation  Blog will be coming soon............................
+> Next Blog will be coming soon............................
 
 ## Conclusion
 
