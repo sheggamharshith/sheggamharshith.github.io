@@ -1,15 +1,17 @@
 ---
+type: post
 title: ChatBot Development
 date: 2021/6/22
-description: ChatBot Development.
-tag: ChatBot
+description: ChatBot Development using rasa.
+tag: ChatBot, project
 author: Harshith Sheggam
 ---
 
 import Image from 'next/image'
 import JSONData from '../../data/projects.json'
+import Link from 'next/link'
 
-## {JSONData[4].short_info}
+<div className='flex justify-between hover:text-bold'><h1>{JSONData[4].short_info}</h1><Link href={"/projects"}>Back</Link></div>
 
 <Image
   src={'/' + JSONData[4].blog_img}
@@ -20,7 +22,8 @@ import JSONData from '../../data/projects.json'
 
 {JSONData[4].long_info}
 
-## Gallery 
+## Gallery
+
 ---
 
 <div class="mx-auto flex flex-wrap gap-1 justify-evenly items-stretch">

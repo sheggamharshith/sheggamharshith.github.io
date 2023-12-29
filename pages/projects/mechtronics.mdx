@@ -2,21 +2,18 @@
 title: Mechatronics
 date: 2021/3/18
 description: his project was a comprehensive learning experience for me, from understanding the fundamentals of electronics to mechanical engineering.
-tag: Mechtronics
+tag: Mechtronics, project
 author: Harshith Sheggam
 ---
 
 import Image from 'next/image'
 import JSONData from '../../data/projects.json'
+import Link from "next/link"
 
-## {JSONData[2].short_info}
-
-<Image
-  src={'/' + JSONData[2].blog_img}
-  className=" object-scale-down md:object-cover md:object-center w-full h-80"
-  width={0}
-  height={0}
-/>
+<div className="flex justify-between  hover:text-bold">
+  <h1>{JSONData[2].short_info}</h1>
+  <Link href={'/projects'}>Back</Link>
+</div>
 
 {JSONData[2].long_info}
 

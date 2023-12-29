@@ -2,14 +2,18 @@
 title: Web Development
 date: 2022/3/18
 description: Web Development Project
-tag: Web Development
+tag: Web Development, project
 author: Harshith Sheggam
 ---
 
 import Image from 'next/image'
 import JSONData from '../../data/projects.json'
+import Link from "next/link"
 
-## {JSONData[3].short_info}
+<div className="flex justify-between  hover:text-bold">
+  <h1>{JSONData[3].short_info}</h1>
+  <Link href={'/projects'}>Back</Link>
+</div>
 
 <Image
   src={'/' + JSONData[3].blog_img}

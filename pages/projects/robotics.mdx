@@ -2,14 +2,18 @@
 title: Robotics
 date: 2021/3/18
 description: Robotics project
-tag: Robotic
+tag: Robotic, project
 author: Harshith Sheggam
 ---
 
 import Image from 'next/image'
 import JSONData from '../../data/projects.json'
+import Link from "next/link"
 
-## {JSONData[0].short_info}
+<div className="flex justify-between  hover:text-bold">
+  <h1>{JSONData[0].short_info}</h1>
+  <Link href={'/projects'}>Back</Link>
+</div>
 
 <Image
   src={'/' + JSONData[0].blog_img}
@@ -20,7 +24,8 @@ import JSONData from '../../data/projects.json'
 
 {JSONData[0].long_info}
 
-## Gallery 
+## Gallery
+
 ---
 
 <div class="mx-auto flex flex-wrap gap-1 justify-evenly items-stretch">

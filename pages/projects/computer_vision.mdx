@@ -2,7 +2,7 @@
 title: Computer Vision
 date: 2021/3/18
 description: Computer Vision
-tag: Computer vision
+tag: Computer vision, project
 author: Harshith Sheggam
 back: "/project"
 ---
@@ -10,7 +10,12 @@ back: "/project"
 import Image from 'next/image'
 import JSONData from '../../data/projects.json'
 
-## {JSONData[1].short_info}
+import Link from "next/link"
+
+<div className="flex justify-between  hover:text-bold">
+  <h1>{JSONData[1].short_info}</h1>
+  <Link href={'/projects'}>Back</Link>
+</div>
 
 <Image
   src={'/' + JSONData[1].blog_img}
