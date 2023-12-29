@@ -31,6 +31,7 @@ export default function Document() {
           defer
           src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "3a6fa569eae44a0e9c878149c3e12a9c"}'
+          strategy="afterInteractive"
         ></Script>
       </Head>
       <body>
