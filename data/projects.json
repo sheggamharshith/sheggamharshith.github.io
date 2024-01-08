@@ -3,7 +3,7 @@
     "id": "robotics",
     "type": "Robotics",
     "short_info": "Six-Axis Industrial Robotic Arm",
-    "long_info": "The robotic arm can perform a wide range of activities and jobs that humans cannot. The ideology of not using steel or metals is that in space void, metal parts, especially those that are sensitive to friction, such as gears and bearings, wear out extremely quickly. The whole project was developed from the ground up, providing my team with valuable learning and working experience. This project was a roller coaster ride for me as I experiment with different technologies like as Ros , Arduino and Raspberry pie, as well as the electric shock and smoke effect, where the whole commitment was placed to accomplish this project.",
+    "long_info": "The robotic arm can perform a wide range of activities and jobs that humans cannot.We built the project everything from scratch even the nut and bolt are made using 3d printer expect metal parts, especially those that are sensitive to friction, such as gears and bearings, wear out extremely quickly. The whole project was developed from the ground up, providing my team with valuable learning and working experience. This project was a roller coaster ride for me as I experiment with different technologies like as Ros, Arduino,OpenCV and Raspberry pie, as well as the electric shock and smoke effect, where the whole commitment was placed to accomplish this project.",
     "main_img": "images/robotics/robotic_arm_main.jpg",
     "blog_img": "images/robotics/robotic-parts.jpg",
     "gallery": [
