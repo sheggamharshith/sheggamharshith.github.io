@@ -5,6 +5,9 @@ date: 2021-03-19
 ---
 
 import Link from 'next/link'
+import Image from 'next/image'
+import JSONData from '../data/projects.json'
+
 
 # Your Name
 
@@ -38,16 +41,36 @@ So, let's embark on this delightful journey of mixing and merging tech and taste
 
 💻 Specializes in full-stack development, proficient in both frontend and backend technologies, with over 4+ years of hands-on experience in Startup and MNC.
 
-🏆 Led a team of 5 at FairShares, enhanced security measures, optimized system architecture and integrate 3rd party API's such as plaid, stripe.
+🏆 At FairShares, Developed FairShares tax-saving web app from scratch. Worked on scaling user @ 1000RPS, Led a team of 5, enhanced security measures, optimized system architecture and integrate 3rd party API's such as plaid, stripe.
 
 💲🏛️
-At American Express, I upgraded their internal portal system from single-tenant to multi-tenant in just 2 months. I also helped scale various in-house projects using Django.
+At American Express, I upgraded their internal django app from single-tenant to multi-tenant in just 2 months. I also helped scale various in-house projects using Django.Worked on there Ldap servers. Helps them moving away from tradtional elasticsearch to Postgresql full text search. 
 
 
 🌐💻🛠️ At Mutual Mobile, I've spearheaded fintech web app creation and upkeep with Django, Python's framework. AWS, managed through Elastic Beanstalk, handled server tasks, scaling, and deployment. We fortified security with AWS WAF. On the frontend, I've delved into MVT, using vanilla JS and jQuery. Collaborating via agile tools like Git, Jira, and Slack, I've engaged with teams. My growth? Constant: learning via code reviews, courses, and mentorship! 
 
 
 👨‍💼 At Aptagrim, I collaborated closely with the dev team to create efficient backend solutions, ensuring top-notch app performance. 🛠️ I actively tackled debugging and troubleshooting, maintaining reliability. Integrating third-party APIs was key in boosting app features.I aimed for innovative server-side improvements. 📚 Also, I documented our backend thoroughly for easy team reference using MKdocs. 📝
+
+
+## Projects
+-----------
+
+{JSONData.map((project,index)=>{return (
+
+<div className='grid grid-cols-1 justify-center align-items-center' key={index}>
+<Link href={"projects/"+project.id} className="grid grid-cols-2 w-full items-center bg-white border border-gray-300 rounded-lg shadow md:flex-row  hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 mb-10" textDecoration="none" >
+    <Image className="object-cover object-center w-full h-full max-h-80" src={"../" + project.main_img} alt="image" width={0} height={0} />
+    <div className="flex flex-col justify-between p-4 leading-normal no-underline">
+        <h5 className="mb-2 text-n text-2xl font-bold tracking-tight text-gray-900 dark:text-white no-underline">{project.short_info}</h5>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate">{project.long_info}</p>
+    </div>
+</Link>
+
+</div>
+)
+})}
+
 
 ## 📚 Publications
 -----
