@@ -1,0 +1,52 @@
+---
+type: post
+title: What's correlation-id or GUI(Global unqiue identifer)?
+description: correlation-id is a unique identifier that is used to trace and log requests as they move through various services.
+date: 2024-12-13
+tag: Web Development,Random, Correlation-id
+image: /images/correlation-id.png
+---
+
+import { Callout } from 'nextra/components'
+
+![](/images/correlation-id.png)
+
+
+
+## Introduction
+
+Have you ever seen this screen. I bet you definlty has watched this screen.You gonna watch it in near future too.But i am not here to roast
+microsoft but am here to explain the one spefic detail here thats correlation id. how they are used to track your issue. correlation id is a unique identifer
+that is used to trace and log requests as they move through various services. In this post, we will discuss how this is used
+
+
+## What is a Correlation ID?
+Its just a unique id might be a UUID or a random string that is generated for each request that is made to a service. This id is then passed along with the request to all the services that are involved in processing the request. 
+This id is then used to trace and log the request as it moves through the various services. This helps in debugging and troubleshooting issues that might arise during the processing of the request.
+
+## why don't we use the a other id type lets say ticket id?
+The main reason for using a correlation id is 
+
+> You don't need a database to store/have the correlation id. You can generate it on the fly and pass it along with the request(ticket id or any of its kind require a database to generate unique id).
+> It is unique for each request (Most of the time).
+> It is easy to trace and log the request as it moves through the various services.
+> It helps in debugging and troubleshooting issues that might arise during the processing of the request(Even the request has not reached for any audit).  
+
+## Wait Correlation-ID is not unique all the time ?
+Yes, it is unique most of the time but there are cases where it might not be unique. Again it depends how you are generating this lets say if you use the UUID. Every one know the story of UUID.
+The annual risk of a given person being hit by a meteorite is estimated to be one chance in 17 billion, which means the probability is about 0.00000000006 (6 × 10−11), equivalent to the odds of creating a few tens of trillions of UUIDs in a year and having one duplicate. In other words, only after generating 1 billion UUIDs every second for the next 100 years, the probability of creating just one duplicate would be about 50%.
+and most of the cases (The example was taken randomly from a stackoverflow post).
+
+## What happens if the correlation id is not unique?
+If the correlation id is not unique, then it becomes difficult to trace and log the request as it moves through the various services. This can make it difficult to debug and troubleshoot issues that might arise during the processing of the request. So it is important to ensure that the correlation id is unique for each request.
+
+## Timestamp and correlation id to save the day
+One way to ensure that the correlation id is unique is to use a combination of the timestamp and a random string to generate the correlation id. This way, even if the random string is not unique, the combination of the timestamp and the random string will be unique. This can help in ensuring that the correlation id is unique for each request.
+
+
+## Conclusion
+Next you see the correlation id in the error message or in the logs you know what it is and how it is used. It is a simple yet powerful tool that can help in debugging and troubleshooting issues that might arise during the processing of the request. 
+
+<Callout type="info" emoji="ℹ️">
+**To My non-technical friends**, next time you see this screen you know what it is please share that with the support team so that they can help you in resolving the issue quickly.
+</Callout>
